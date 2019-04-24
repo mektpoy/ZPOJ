@@ -188,6 +188,7 @@ app.get('/submission/:id', async (req, res) => {
         displayConfig: displayConfig
       }, syzoj.config.session_secret) : null,
       displayConfig: displayConfig,
+      problem_id: judge.problem.id,
     });
   } catch (e) {
     syzoj.log(e);
