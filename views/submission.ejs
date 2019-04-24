@@ -111,7 +111,7 @@
             </div>
               <div class="content">
                 <template v-if="checkTestcaseOK(curCase)">
-                  <code-box v-if="curCase.result.input" :title="'输入文件（<span style=\'font-family: monospace; \'>'+ curCase.result.input.name +'</span>）'" :content="curCase.result.input.content" :download="'/problem/' + judge.problem.id + '/testdata/download/' + curCase.result.input.name" > </code-box>
+                  <code-box v-if="curCase.result.input" :title="'输入文件（<span style=\'font-family: monospace; \'>'+ curCase.result.input.name +'</span>）'" :content="curCase.result.input.content" :download="'/problem/1/testdata/download/1.in'" > </code-box>
                   <code-box v-if="curCase.result.output" :title="'答案文件（<span style=\'font-family: monospace; \'>'+ curCase.result.output.name +'</span>）'" :content="curCase.result.output.content"></code-box>
                   <code-box title="用户输出" :content="curCase.result.userOutput"></code-box>
                   <code-box title="标准错误流" :content="curCase.result.userError"></code-box>
