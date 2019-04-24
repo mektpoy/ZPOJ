@@ -224,7 +224,7 @@ const vueApp = new Vue({
     currentFormatted: <%- serializejs(preferFormattedCode && formattedCode !== null) -%>,
     detailResult: <%- serializejs(detailResult) %>,
     displayConfig: displayConfig,
-    problem_id: problem_id,
+    problem_id: <%- serializejs(problem_id) %>,
   },
   computed: {
     singleSubtask() {
