@@ -54,7 +54,7 @@
   </table>
 
   <code-box no-escape v-bind:content="code">
-    <a onclick="copycode()" class="ui button" style="position: absolute; top: 15px; right: -4px; border-top-left-radius: 0; border-bottom-right-radius: 0; ">
+    <a onclick="copycode()" class="ui button" style="position: absolute; top: 30px; right: -4px; border-top-left-radius: 0; border-bottom-right-radius: 0; ">
         <template>
           复制代码
         </template>
@@ -264,7 +264,7 @@ window.Clipboard = (function(window, document, navigator) {
 })(window, document, navigator);
 
 function copycode() {
-  Clipboard.copy(vueApp.code);
+  Clipboard.copy(vueApp.code.replace(/<[^>]*>/g, ''));
 }
 
 function toggleFormattedCode() {
