@@ -189,6 +189,7 @@ app.get('/submission/:id', async (req, res) => {
       }, syzoj.config.session_secret) : null,
       displayConfig: displayConfig,
       problem_id: judge.problem.id,
+      source_code: (judge.problem.type !== 'submit-answer') ? judge.code : '',
     });
   } catch (e) {
     syzoj.log(e);
