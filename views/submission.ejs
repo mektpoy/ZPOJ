@@ -59,16 +59,6 @@
           复制代码
         </template>
       </a>
-    <% if (formattedCode !== null) { %>
-      <a onclick="toggleFormattedCode()" class="ui button" style="position: absolute; top: 0px; right: -4px; border-top-left-radius: 0; border-bottom-right-radius: 0; ">
-        <template v-if="currentFormatted">
-          显示原始代码
-        </template>
-        <template v-if="!currentFormatted">
-          格式化代码
-        </template>
-      </a>
-    <% } %>
   </code-box>
   <code-box v-if="detailResult && detailResult.compile" no-escape title="编译信息" v-bind:content="detailResult.compile.message"></code-box>
   <code-box v-if="detailResult" title="系统信息" v-bind:content="detailResult.systemMessage"></code-box>
