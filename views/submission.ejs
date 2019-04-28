@@ -264,8 +264,16 @@ window.Clipboard = (function(window, document, navigator) {
 })(window, document, navigator);
 
 function copycode() {
-  Clipboard.copy(vueApp.code.replace(/<[^>]*>/g, ''));
+  Clipboard.copy(HTMLDecode(vueApp.code.replace(/<[^>]*>/g, '')));
 }
+
+function HTMLDecode(text) { 
+  var temp = document.createElement("div"); 
+  temp.innerHTML = text; 
+  var output = temp.innerText || temp.textContent; 
+  temp = null; 
+  return output; 
+} 
 
 function toggleFormattedCode() {
   if (vueApp.currentFormatted) {
