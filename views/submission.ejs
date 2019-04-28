@@ -193,6 +193,7 @@ const TaskStatus = {};
     TaskStatus[TaskStatus["Skipped"] = 4] = "Skipped";
 })(TaskStatus);
 
+const source_code = <%- serializejs(source_code) %>;
 const unformattedCode = <%- serializejs(code) %>;
 const formattedCode = <%- serializejs(formattedCode) %>;
 
