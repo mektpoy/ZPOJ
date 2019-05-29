@@ -45,9 +45,12 @@ jspm_packages
 
 # Upload directory
 /uploads/
-
 # pictures
 /static/pictures/
+/static/BZOJ
+/static/JudgeOnline
+/static/uploads
+/uploads
 
 # Created by https://www.gitignore.io/api/vim
 
