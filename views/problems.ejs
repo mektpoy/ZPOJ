@@ -1,9 +1,17 @@
-<% this.title = '题库' %>
+<% 
+if (typeof favorite === 'undefined') favorite = null;
+if (favorite) {
+  this.title = '收藏夹';
+} else {
+  this.title = '题库';
+}
+%>
 <% include header %>
 <%
 let tagIDs = [];
 if (typeof tags !== 'undefined') tagIDs = tags.map(x => x.id);
 %>
+<% if (!favorite) { %>
 <div class="padding">
   <h4 class="ui top attached block header"><i class="ui list icon"></i>题库</h4>
   <div class="ui bottom attached segment">
@@ -190,4 +198,7 @@ $(function () {
 </script>
 </div>
 </div>
+<% } else { %>
+<h2> 施工中，敬请期待！ </h2>
+<% } %>
 <% include footer %>
