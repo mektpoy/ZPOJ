@@ -14,16 +14,14 @@
 			var timestamp = new Date().getTime();
 			var pic = "<%=user.background%>".trim().split(";");
 			var k = pic.length;
-			var t = 1;
 			var tmp;
-			var rd = Math.floor(timestamp / 100000);
-			for (var i = 1; i < k; i++) {
-				t = (t * rd + rd % 10) % i;
-				tmp = pic[i];
-				pic[i] = pic[t];
-				pic[t] = tmp;
+			var t = Math.floor(timestamp / 100000);
+			for (var i = 0; i < 10; i++) {
+				t = (t * 1103515245 + 12345);
+				t = (t / 65536) % 32768;
 			}
-			document.body.style.background = "url('" + pic[0] + "') fixed center";
+			t = t % k;
+			document.body.style.background = "url('" + pic[t] + "') fixed center";
 			document.body.style.backgroundSize = "cover";
 		<% } %>
 	</script>
