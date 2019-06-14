@@ -18,7 +18,7 @@
 			var t = Math.floor(timestamp / 100000);
 			for (var i = 0; i < 10; i++) {
 				t = (t * 1103515245 + 12345);
-				t = (t / 65536) % 32768;
+				t = (Math.floor(t / 65536)) % 32768;
 			}
 			t = t % k;
 			document.body.style.background = "url('" + pic[t] + "') fixed center";
