@@ -9,12 +9,9 @@
 <script src="<%- lib('Chart.js/2.7.3/Chart.bundle.min.js') %>"></script>
 <script src="<%- selfLib('script.js') %>?20170710"></script>
 <script>
+	<% if (user && user.background) { %>
 		var timestamp = new Date().getTime();
-		<% if (user.background) { %>
-			var pic = "<%=user.background%>".trim().split(";");
-		<% } else { %>
-			var pic = "/uploads/big/d10ddfc5a046a33f245a0933209a8d43.jpg".trim().split(";");
-		<% } %>
+		var pic = "<%=user.background%>".trim().split(";");
 		var k = pic.length;
 		var tmp;
 		var t = Math.floor(timestamp / 100000);
@@ -25,6 +22,10 @@
 		t = t % k;
 		document.body.style.background = "url('" + pic[t] + "') fixed center";
 		document.body.style.backgroundSize = "cover";
+	<% } else { %>
+		document.body.style.background = "url('/uploads/big/d10ddfc5a046a33f245a0933209a8d43.jpg') fixed center";
+		document.body.style.backgroundSize = "cover";
+	<% } %>
 </script>
 </body>
 </html>
