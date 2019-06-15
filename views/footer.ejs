@@ -8,23 +8,23 @@
 <script src="<%- lib('semantic-ui/2.4.1/semantic.min.js') %>"></script>
 <script src="<%- lib('Chart.js/2.7.3/Chart.bundle.min.js') %>"></script>
 <script src="<%- selfLib('script.js') %>?20170710"></script>
-<% if (user) { %>
-	<script>
+<script>
+		var timestamp = new Date().getTime();
 		<% if (user.background) { %>
-			var timestamp = new Date().getTime();
 			var pic = "<%=user.background%>".trim().split(";");
-			var k = pic.length;
-			var tmp;
-			var t = Math.floor(timestamp / 100000);
-			for (var i = 0; i < 10; i++) {
-				t = (t * 1103515245 + 12345);
-				t = (Math.floor(t / 65536)) % 32768;
-			}
-			t = t % k;
-			document.body.style.background = "url('" + pic[t] + "') fixed center";
-			document.body.style.backgroundSize = "cover";
+		<% } else { %>
+			var pic = "/uploads/big/d10ddfc5a046a33f245a0933209a8d43.jpg".trim().split(";");
 		<% } %>
-	</script>
-<% } %>
+		var k = pic.length;
+		var tmp;
+		var t = Math.floor(timestamp / 100000);
+		for (var i = 0; i < 10; i++) {
+			t = (t * 1103515245 + 12345);
+			t = (Math.floor(t / 65536)) % 32768;
+		}
+		t = t % k;
+		document.body.style.background = "url('" + pic[t] + "') fixed center";
+		document.body.style.backgroundSize = "cover";
+</script>
 </body>
 </html>
