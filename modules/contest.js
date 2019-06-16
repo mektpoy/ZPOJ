@@ -287,7 +287,7 @@ function getDisplayConfig(contest) {
   return {
     showScore: contest.allowedSeeingScore(),
     showUsage: false,
-    showCode: false,
+    showCode: true,
     showResult: contest.allowedSeeingResult(),
     showOthers: contest.allowedSeeingOthers(),
     showDetailResult: contest.allowedSeeingTestcase(),
