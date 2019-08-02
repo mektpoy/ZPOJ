@@ -25,7 +25,7 @@
                 <% for (let i = 0; i < problems.length; i++) { %>
                 <th>
                   <a href="<%= syzoj.utils.makeUrl(['contest', contest.id, 'problem', i + 1]) %>">
-                    <% if (contest.type === 'prac') { %>
+                    <% if (contest.type === 'prac' || contest.type === 'acm') { %>
                     <%= String.fromCharCode(65+i) %>
                     <% } else { %>  
                     <%= syzoj.utils.removeTitleTag(problems[i].title) %>
