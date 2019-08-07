@@ -38,8 +38,8 @@ module.exports = {
       if (noReplaceUI) return s;
 
       s = s.split('<pre>').join('<div class="ui existing segment"><pre style="margin-top: 0; margin-bottom: 0; ">').split('</pre>').join('</pre></div>')
-           .split('<table>').join('<table class="ui celled table">')
-           .split('<blockquote>').join('<div class="ui message">').split('</blockquote>').join('</div>');
+        .split('<table>').join('<table class="ui celled table">')
+        .split('<blockquote>').join('<div class="ui message">').split('</blockquote>').join('</div>');
 
       let cheerio = require('cheerio');
       let $ = cheerio.load('<html><head></head><body></body></html>');
@@ -60,7 +60,7 @@ module.exports = {
       if (!keys) {
         if (!obj || !obj.trim()) resolve("");
         else markdownRenderer(obj, s => {
-            resolve(replaceUI(s));
+          resolve(replaceUI(s));
         });
       } else {
         let res = obj, cnt = keys.length;
@@ -92,11 +92,11 @@ module.exports = {
     return sgn + util.format('%s:%s:%s', toStringWithPad(x / 3600), toStringWithPad(x / 60 % 60), toStringWithPad(x % 60));
   },
   formatSize(x, precision) {
-      if (typeof x !== 'number') return '0 B';
-      let unit = 'B', units = ['K', 'M', 'G', 'T'];
-      for (let i in units) if (x > 1024) x /= 1024, unit = units[i];
-      var fixed = x === Math.round(x) ? x.toString() : x.toFixed(precision);
-      return fixed + ' ' + unit;
+    if (typeof x !== 'number') return '0 B';
+    let unit = 'B', units = ['K', 'M', 'G', 'T'];
+    for (let i in units) if (x > 1024) x /= 1024, unit = units[i];
+    var fixed = x === Math.round(x) ? x.toString() : x.toFixed(precision);
+    return fixed + ' ' + unit;
   },
   getFormattedCodeKey(code, lang) {
     if (syzoj.languages[lang].format) {
@@ -249,7 +249,7 @@ module.exports = {
     };
   },
   removeTitleTag(s) {
-    return s.replace(/「[\S\s]+?」/, '');
+    return s.replace(/「[\S\s]+?」/, '').replace(/\[[\S\s]+?\]/, '');
   },
   md5(data) {
     let crypto = require('crypto');
@@ -325,9 +325,9 @@ module.exports = {
       function attempt() {
         if (attemptCount++) console.log(`syzoj.utils.withTimeout(): attemptCount = ${attemptCount}`);
         Promise.method(func)().timeout(5000)
-        .then(resolve)
-        .catch(Promise.TimeoutError, attempt)
-        .catch(reject);
+          .then(resolve)
+          .catch(Promise.TimeoutError, attempt)
+          .catch(reject);
       }
       attempt();
     });
