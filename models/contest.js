@@ -94,7 +94,7 @@ class Contest extends Model {
   }
 
   allowedSeeingTestcase() {
-    if (this.type === 'ioi') return true;
+    // if (this.type === 'ioi') return true;
     return false;
   }
 
