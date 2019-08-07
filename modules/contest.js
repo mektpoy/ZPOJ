@@ -76,9 +76,6 @@ app.post('/contest/:id/edit', async (req, res) => {
 
       ranklist = await ContestRanklist.create();
 
-      // Only new contest can be set type
-      if (!['noi', 'ioi', 'acm', 'prac'].includes(req.body.type)) throw new ErrorMessage('无效的赛制。');
-      contest.type = req.body.type;
     } else {
       await contest.loadRelationships();
       ranklist = contest.ranklist;
@@ -94,6 +91,8 @@ app.post('/contest/:id/edit', async (req, res) => {
 
     if (!req.body.title.trim()) throw new ErrorMessage('比赛名不能为空。');
     contest.title = req.body.title;
+    if (!['noi', 'ioi', 'acm', 'prac'].includes(req.body.type)) throw new ErrorMessage('无效的赛制。');
+    contest.type = req.body.type;
     contest.subtitle = req.body.subtitle;
     if (!Array.isArray(req.body.problems)) req.body.problems = [req.body.problems];
     if (!Array.isArray(req.body.admins)) req.body.admins = [req.body.admins];
