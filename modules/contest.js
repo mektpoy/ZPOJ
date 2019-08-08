@@ -483,6 +483,7 @@ app.get('/contest/:id/problem/:pid', async (req, res) => {
     await syzoj.utils.markdown(problem, ['description', 'input_format', 'output_format', 'example', 'limit_and_hint']);
 
     let state = await problem.getJudgeState(res.locals.user, false);
+    if (state.submit_time < contest.start_time) state = null;
     let testcases = await syzoj.utils.parseTestdata(problem.getTestdataPath(), problem.type === 'submit-answer');
 
     await problem.loadRelationships();
