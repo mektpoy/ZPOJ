@@ -38,6 +38,5 @@ class Favorite extends Model {
 }
 
 Favorite.model = model;
-Favorite.model.hasOne(Problem, { foreignKey: 'problem_id' });
 
 module.exports = Favorite;

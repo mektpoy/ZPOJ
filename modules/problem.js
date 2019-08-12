@@ -235,18 +235,17 @@ app.get('/favorites', async (req, res) => {
     //   }
     // }
 
-    let where = {
-      user_id: res.locals.user.id
-    };
+    // let where = {
+    //   user_id: res.locals.user.id
+    // };
 
-    let include = [Problem];
+    // let include = [Problem];
 
-    // let paginate = syzoj.utils.paginate(await Problem.count(where), req.query.page, syzoj.config.page.problem);
-    let favorites = await Favorite.query(null, where, null, null, include);
-    let problems = [];
-    favorites.forEach(function (value) {
-      problems.push(value.problem);
-    });
+    let problems = await Favorite.query('select * from problem b where exists(select * from favorite a where a.user_id=' + res.locals.user.id + 'and a.problem_id=b.id');
+    // let problems = [];
+    // favorites.forEach(function (value) {
+    //   problems.push(value.problem);
+    // });
 
     // await problems.forEachAsync(async problem => {
     //   problem.allowedEdit = await problem.isAllowedEditBy(res.locals.user);
