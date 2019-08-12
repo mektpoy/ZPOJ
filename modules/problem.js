@@ -206,55 +206,28 @@ app.get('/problems/tag/:tagIDs', async (req, res) => {
 app.get('/favorites', async (req, res) => {
   try {
     if (!res.locals.user || res.locals.user.name == "" || res.locals.user.name == null) throw new ErrorMessage('您没有登录或没有访问此OJ的权限，请联系管理员。');
-    // const sort = req.query.sort || syzoj.config.sorting.problem.field;
-    // const order = req.query.order || syzoj.config.sorting.problem.order;
-    // if (!['id', 'title', 'rating', 'ac_num', 'submit_num', 'ac_rate', 'publicize_time'].includes(sort) || !['asc', 'desc'].includes(order)) {
-    //   throw new ErrorMessage('错误的排序参数。');
-    // }
+    let id = parseInt(req.query.keyword) || 0;
+    const sort = req.query.sort || syzoj.config.sorting.problem.field;
+    const order = req.query.order || syzoj.config.sorting.problem.order;
+    if (!['id', 'title', 'rating', 'ac_num', 'submit_num', 'ac_rate'].includes(sort) || !['asc', 'desc'].includes(order)) {
+      throw new ErrorMessage('错误的排序参数。');
+    }
 
-    // let sortVal = sort;
-    // if (sort === 'ac_rate') {
-    //   sortVal = { raw: 'ac_num / submit_num' };
-    // }
-    // let where = {};
-    // if (!res.locals.user || !await res.locals.user.hasPrivilege('manage_problem')) {
-    //   if (res.locals.user) {
-    //     where = {
-    //       $and: {
-    //         $or: {
-    //           is_public: 1,
-    //           user_id: res.locals.user.id
-    //         }
+    let paginate = syzoj.utils.paginate(await Problem.count('select * from problem b where exists(select * from favorite a where a.user_id=' + res.locals.user.id + ' and a.problem_id=b.id)'), req.query.page, syzoj.config.page.problem);
+    let problems = await Problem.query('select * from problem b where exists(select * from favorite a where a.user_id=' + res.locals.user.id + ' and a.problem_id=b.id)');
 
-    //       }
-    //     };
-    //   } else {
-    //     where = {
-    //       is_public: 1
-    //     };
-    //   }
-    // }
-
-    // let where = {
-    //   user_id: res.locals.user.id
-    // };
-
-    // let include = [Problem];
-
-    let problems = await Favorite.query('select * from problem b where exists(select * from favorite a where a.user_id=' + res.locals.user.id + 'and a.problem_id=b.id');
-    // let problems = [];
-    // favorites.forEach(function (value) {
-    //   problems.push(value.problem);
-    // });
-
-    // await problems.forEachAsync(async problem => {
-    //   problem.allowedEdit = await problem.isAllowedEditBy(res.locals.user);
-    //   problem.judge_state = await problem.getJudgeState(res.locals.user, true);
-    //   problem.tags = await problem.getTags();
-    // });
+    await problems.forEachAsync(async problem => {
+      problem.allowedEdit = await problem.isAllowedEditBy(res.locals.user);
+      problem.judge_state = await problem.getJudgeState(res.locals.user, true);
+      problem.tags = await problem.getTags();
+    });
 
     res.render('problems', {
+      allowedManageTag: res.locals.user && await res.locals.user.hasPrivilege('manage_problem_tag'),
       problems: problems,
+      paginate: paginate,
+      curSort: sort,
+      curOrder: order === 'asc'
     });
   } catch (e) {
     syzoj.log(e);
