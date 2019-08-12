@@ -32,17 +32,16 @@ if (contest) {
   <div class="ui center aligned grid">
     <div class="row">
       <h1 class="ui header">
+        <% if (contest) { %>
+        <%= this.alpha(pid) %>. <%= syzoj.utils.removeTitleTag(problem.title) %>
+        <% } else { %>
         <% if (like) { %>
         <img class="removeFavorite friendStar" title="Click to remove favorite" favoriteproblemid="<%=problem.id%>"
           style="height: 24px; width: 24px;" src="/star_yellow_24.png" />
         <% } else { %>
         <img class="addFavorite friendStar" title="Click to add favorite" favoriteproblemid="<%=problem.id%>"
           style="height: 24px; width: 24px;" src="/star_gray_24.png" />
-        <% } %>
-        <% if (contest) { %>
-        <%= this.alpha(pid) %>. <%= syzoj.utils.removeTitleTag(problem.title) %>
-        <% } else { %>
-        #<%= problem.id %>. <%= problem.title %><% if (problem.allowedEdit && !problem.is_public) { %><span
+        <% } %><%= problem.id %>. <%= problem.title %><% if (problem.allowedEdit && !problem.is_public) { %><span
           class="ui tiny red label">未公开</span><% } %>
         <% } %>
       </h1>
