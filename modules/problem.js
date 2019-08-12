@@ -205,17 +205,18 @@ app.get('/problems/tag/:tagIDs', async (req, res) => {
 
 app.post('/favorite', async (req, res) => {
   try {
+    problem_id = parseInt(req.body.favoriteProblemId);
     if (req.body.isAdd == "true") {
-      let favorite = (await Favorite.query('select * from favorite where problem_id = ' + req.body.favoriteProblemId + ' and user_id = ' + res.locals.user.id))[0];
+      let favorite = (await Favorite.query('select * from favorite where problem_id = ' + problem_id + ' and user_id = ' + res.locals.user.id))[0];
       if (favorite) {
       } else {
         let favorite = await Favorite.create();
         favorite.user_id = res.locals.user.id;
-        favorite.problem_id = req.body.favoriteProblemId;
+        favorite.problem_id = problem_id;
         await favorite.save();
       }
     } else {
-      let favorite = (await Favorite.query('select * from favorite where problem_id = ' + req.body.favoriteProblemId + ' and user_id = ' + res.locals.user.id))[0];
+      let favorite = (await Favorite.query('select * from favorite where problem_id = ' + problem_id + ' and user_id = ' + res.locals.user.id))[0];
       if (favorite) {
         await favorite.delete();
       }
