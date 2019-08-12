@@ -32,10 +32,10 @@ if (contest) {
     <div class="row">
       <h1 class="ui header">
         <% if (like) { %>
-        <img class="removeFavorite friendStar" title="Click to remove from friends" favoriteproblemid="<%=problem.id%>"
+        <img class="removeFavorite friendStar" title="Click to remove favorite" favoriteproblemid="<%=problem.id%>"
           src="/star_yellow_24.png" />
         <% } else { %>
-        <img class="addFavorite friendStar" title="Click to remove from friends" favoriteproblemid="<%=problem.id%>"
+        <img class="addFavorite friendStar" title="Click to add favorite" favoriteproblemid="<%=problem.id%>"
           src="/star_gray_24.png" />
         <% } %>
         <% if (contest) { %>
