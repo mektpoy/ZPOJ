@@ -34,10 +34,10 @@ if (contest) {
       <h1 class="ui header">
         <% if (like) { %>
         <img class="removeFavorite friendStar" title="Click to remove favorite" favoriteproblemid="<%=problem.id%>"
-          style="height: 24px; width: 24px; src="/star_yellow_24.png" />
+          style="height: 24px; width: 24px;" src="/star_yellow_24.png" />
         <% } else { %>
         <img class="addFavorite friendStar" title="Click to add favorite" favoriteproblemid="<%=problem.id%>"
-          src="/star_gray_24.png" />
+          style="height: 24px; width: 24px;" src="/star_gray_24.png" />
         <% } %>
         <% if (contest) { %>
         <%= this.alpha(pid) %>. <%= syzoj.utils.removeTitleTag(problem.title) %>
