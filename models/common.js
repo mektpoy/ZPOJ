@@ -70,7 +70,7 @@ class Model {
     return (await this.model.findAll()).mapAsync(record => (this.fromRecord(record)));
   }
 
-  static async count(where) {
+  static async count(where, include) {
     // count(sql)
     if (typeof where === 'string') {
       let sql = where;
@@ -78,10 +78,14 @@ class Model {
     }
 
     // count(where)
-    return this.model.count({ where: where });
+    if (include) {
+      return this.model.count({ where: where, include: include })
+    } else {
+      return this.model.count({ where: where });
+    }
   }
 
-  static async query(paginate, where, order, largeData) {
+  static async query(paginate, where, order, largeData, include) {
     let records = [];
 
     if (typeof paginate === 'string') {
@@ -101,6 +105,9 @@ class Model {
       } else if (paginate) {
         options.offset = (paginate.currPage - 1) * paginate.perPage;
         options.limit = parseInt(paginate.perPage);
+      }
+      if (include) {
+        options.include = include;
       }
 
       if (!largeData) records = await this.model.findAll(options);
@@ -126,7 +133,7 @@ function getSqlFromFindAll(Model, options) {
 
       resolve(Model.sequelize.dialect.QueryGenerator.selectQuery(Model.getTableName(), options, Model).slice(0, -1));
 
-      return new Promise(() => {});
+      return new Promise(() => { });
     });
 
     return Model.findAll(options).catch(reject);

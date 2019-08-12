@@ -1,6 +1,6 @@
 let statisticsStatements = {
   fastest:
-  '\
+    '\
 SELECT \
 	DISTINCT(`user_id`) AS `user_id`,  \
 	( \
@@ -25,7 +25,7 @@ WHERE  \
 ORDER BY `total_time` ASC \
 ',
   slowest:
-  ' \
+    ' \
 SELECT \
 	DISTINCT(`user_id`) AS `user_id`,  \
 	( \
@@ -50,7 +50,7 @@ WHERE  \
 ORDER BY `total_time` DESC \
 ',
   shortest:
-  ' \
+    ' \
 SELECT \
 	DISTINCT(`user_id`) AS `user_id`,  \
 	( \
@@ -75,7 +75,7 @@ WHERE  \
 ORDER BY `code_length` ASC \
 ',
   longest:
-  ' \
+    ' \
 SELECT \
 	DISTINCT(`user_id`) AS `user_id`,  \
 	( \
@@ -100,7 +100,7 @@ WHERE  \
 ORDER BY `code_length` DESC \
 ',
   earliest:
-  ' \
+    ' \
 SELECT \
 	DISTINCT(`user_id`) AS `user_id`,  \
 	( \
@@ -125,7 +125,7 @@ WHERE  \
 ORDER BY `submit_time` ASC \
 ',
   min:
-  ' \
+    ' \
 SELECT \
 	DISTINCT(`user_id`) AS `user_id`,  \
 	( \
@@ -150,7 +150,7 @@ WHERE  \
 ORDER BY `max_memory` ASC \
 ',
   max:
-  ' \
+    ' \
 SELECT \
 	DISTINCT(`user_id`) AS `user_id`,  \
 	( \
@@ -350,7 +350,7 @@ class Problem extends Model {
       await fs.move(filepath, path.join(dir, filename), { overwrite: true });
 
       let execFileAsync = Promise.promisify(require('child_process').execFile);
-      try { await execFileAsync('dos2unix', [path.join(dir, filename)]); } catch (e) {}
+      try { await execFileAsync('dos2unix', [path.join(dir, filename)]); } catch (e) { }
 
       await fs.remove(this.getTestdataArchivePath());
     });

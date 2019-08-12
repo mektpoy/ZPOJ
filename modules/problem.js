@@ -7,6 +7,7 @@ let Contest = syzoj.model('contest');
 let ProblemTag = syzoj.model('problem_tag');
 let ProblemTagMap = syzoj.model('problem_tag_map');
 let Article = syzoj.model('article');
+let Favorite = syzoj.model('favorite');
 const Sequelize = require('sequelize');
 
 let Judger = syzoj.lib('judger');
@@ -219,9 +220,12 @@ app.get('/favorites', async (req, res) => {
     // if (!res.locals.user || !await res.locals.user.hasPrivilege('manage_problem')) {
     //   if (res.locals.user) {
     //     where = {
-    //       $or: {
-    //         is_public: 1,
-    //         user_id: res.locals.user.id
+    //       $and: {
+    //         $or: {
+    //           is_public: 1,
+    //           user_id: res.locals.user.id
+    //         }
+
     //       }
     //     };
     //   } else {
@@ -231,8 +235,18 @@ app.get('/favorites', async (req, res) => {
     //   }
     // }
 
+    let where = {
+      user_id: res.locals.user.id
+    };
+
+    let include = [Problem];
+
     // let paginate = syzoj.utils.paginate(await Problem.count(where), req.query.page, syzoj.config.page.problem);
-    // let problems = await Problem.query(paginate, where, [[sortVal, order]]);
+    let favorites = await Favorite.query(null, where, null, null, include);
+    let problems = [];
+    favorites.forEach(function (value) {
+      problems.push(value.problem);
+    });
 
     // await problems.forEachAsync(async problem => {
     //   problem.allowedEdit = await problem.isAllowedEditBy(res.locals.user);
@@ -240,16 +254,9 @@ app.get('/favorites', async (req, res) => {
     //   problem.tags = await problem.getTags();
     // });
 
-    // res.render('problems', {
-    //   allowedManageTag: res.locals.user && await res.locals.user.hasPrivilege('manage_problem_tag'),
-    //   problems: problems,
-    //   paginate: paginate,
-    //   curSort: sort,
-    //   curOrder: order === 'asc'
-    // });
     res.render('problems', {
-      favorite: true
-    })
+      problems: problems,
+    });
   } catch (e) {
     syzoj.log(e);
     res.render('error', {
