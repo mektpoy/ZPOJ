@@ -206,10 +206,14 @@ app.get('/problems/tag/:tagIDs', async (req, res) => {
 app.post('/favorite', async (req, res) => {
   try {
     if (req.body.isAdd == "true") {
-      let favorite = await Favorite.create();
-      favorite.user_id = res.locals.user.id;
-      favorite.problem_id = req.body.favoriteProblemId;
-      await favorite.save();
+      let favorite = await Favorite.query('select * from favorite where problem_id = ' + req.body.favoriteProblemId + ' and user_id = ' + res.locals.user.id)[0];
+      if (favorite) {
+      } else {
+        let favorite = await Favorite.create();
+        favorite.user_id = res.locals.user.id;
+        favorite.problem_id = req.body.favoriteProblemId;
+        await favorite.save();
+      }
     } else {
       let favorite = await Favorite.query('select * from favorite where problem_id = ' + req.body.favoriteProblemId + ' and user_id = ' + res.locals.user.id)[0];
       if (favorite) {
@@ -285,7 +289,7 @@ app.get('/problem/:id', async (req, res) => {
     await problem.loadRelationships();
 
     let like = null;
-    let favorite = await Favorite.query('select * from favorite where problem_id = ' + id + ' and user_id = ' + res.locals.user.id)[0]
+    let favorite = await Favorite.count('select * from favorite where problem_id = ' + id + ' and user_id = ' + res.locals.user.id)
     if (favorite) like = 1;
 
     let testcases = await syzoj.utils.parseTestdata(problem.getTestdataPath(), problem.type === 'submit-answer');
