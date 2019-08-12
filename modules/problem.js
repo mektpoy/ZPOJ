@@ -218,7 +218,7 @@ app.post('/favorite', async (req, res) => {
     } else {
       let favorite = (await Favorite.query('select * from favorite where problem_id = ' + problem_id + ' and user_id = ' + res.locals.user.id))[0];
       if (favorite) {
-        await favorite.delete();
+        await Favorite.query('DELETE FROM favorite WHERE problem_id = ' + problem_id + ' and user_id = ' + res.locals.user.id);
       }
     }
   } catch (e) {
