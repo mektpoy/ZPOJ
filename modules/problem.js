@@ -203,6 +203,27 @@ app.get('/problems/tag/:tagIDs', async (req, res) => {
   }
 });
 
+app.post('/favorite', async (req, res) => {
+  try {
+    if (req.body.isAdd == "true") {
+      let favorite = await Favorite.create();
+      favorite.user_id = res.locals.user.id;
+      favorite.problem_id = req.body.favoriteUserId;
+      await favorite.save();
+    } else {
+      let favorite = await Favorite.query('select * from favorite where problem_id = ' + req.body.favoriteUserId + ' and user_id = ' + res.locals.user.id)[0];
+      if (favorite) {
+        await favorite.delete();
+      }
+    }
+  } catch (e) {
+    syzoj.log(e);
+    res.render('error', {
+      err: e
+    });
+  }
+});
+
 app.get('/favorites', async (req, res) => {
   try {
     if (!res.locals.user || res.locals.user.name == "" || res.locals.user.name == null) throw new ErrorMessage('您没有登录或没有访问此OJ的权限，请联系管理员。');
