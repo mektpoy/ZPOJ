@@ -206,7 +206,7 @@ app.get('/problems/tag/:tagIDs', async (req, res) => {
 app.post('/favorite', async (req, res) => {
   try {
     if (req.body.isAdd == "true") {
-      let favorite = await Favorite.query('select * from favorite where problem_id = ' + req.body.favoriteProblemId + ' and user_id = ' + res.locals.user.id)[0];
+      let favorite = (await Favorite.query('select * from favorite where problem_id = ' + req.body.favoriteProblemId + ' and user_id = ' + res.locals.user.id))[0];
       if (favorite) {
       } else {
         let favorite = await Favorite.create();
@@ -215,7 +215,7 @@ app.post('/favorite', async (req, res) => {
         await favorite.save();
       }
     } else {
-      let favorite = await Favorite.query('select * from favorite where problem_id = ' + req.body.favoriteProblemId + ' and user_id = ' + res.locals.user.id)[0];
+      let favorite = (await Favorite.query('select * from favorite where problem_id = ' + req.body.favoriteProblemId + ' and user_id = ' + res.locals.user.id))[0];
       if (favorite) {
         await favorite.delete();
       }
