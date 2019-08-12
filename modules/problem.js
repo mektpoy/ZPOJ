@@ -211,7 +211,7 @@ app.post('/favorite', async (req, res) => {
       favorite.problem_id = req.body.favoriteUserId;
       await favorite.save();
     } else {
-      let favorite = await Favorite.query('select * from favorite where problem_id = ' + req.body.favoriteUserId + ' and user_id = ' + res.locals.user.id)[0];
+      let favorite = await Favorite.query('select * from favorite where problem_id = ' + req.body.favoriteProblemId + ' and user_id = ' + res.locals.user.id)[0];
       if (favorite) {
         await favorite.delete();
       }
@@ -284,11 +284,16 @@ app.get('/problem/:id', async (req, res) => {
     problem.tags = await problem.getTags();
     await problem.loadRelationships();
 
+    let like = null;
+    let favorite = await Favorite.query('select * from favorite where problem_id = ' + id + ' and user_id = ' + res.locals.user.id)[0]
+    if (favorite) like = 1;
+
     let testcases = await syzoj.utils.parseTestdata(problem.getTestdataPath(), problem.type === 'submit-answer');
 
     let discussionCount = await Article.count({ problem_id: id });
 
     res.render('problem', {
+      like: like,
       problem: problem,
       state: state,
       lastLanguage: res.locals.user ? await res.locals.user.getLastSubmitLanguage() : null,
