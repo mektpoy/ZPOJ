@@ -208,7 +208,7 @@ app.post('/favorite', async (req, res) => {
     if (req.body.isAdd == "true") {
       let favorite = await Favorite.create();
       favorite.user_id = res.locals.user.id;
-      favorite.problem_id = req.body.favoriteUserId;
+      favorite.problem_id = req.body.favoriteProblemId;
       await favorite.save();
     } else {
       let favorite = await Favorite.query('select * from favorite where problem_id = ' + req.body.favoriteProblemId + ' and user_id = ' + res.locals.user.id)[0];
