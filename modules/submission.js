@@ -22,7 +22,7 @@ const displayConfig = {
 // s is JudgeState
 app.get('/submissions', async (req, res) => {
   try {
-    if (!res.locals.user || res.locals.user.name == "" || res.locals.user.name == null) throw new ErrorMessage('您没有登录或没有访问此OJ的权限，请联系管理员。');
+    // if (!res.locals.user || res.locals.user.name == "" || res.locals.user.name == null) throw new ErrorMessage('您没有登录或没有访问此OJ的权限，请联系管理员。');
     const curUser = res.locals.user;
     let user = await User.fromName(req.query.submitter || '');
     let where = {};
@@ -68,7 +68,7 @@ app.get('/submissions', async (req, res) => {
     }
 
     if (req.query.language) {
-      if (req.query.language === 'submit-answer') where.language = { $or: [{ $eq: '',  }, { $eq: null }] };
+      if (req.query.language === 'submit-answer') where.language = { $or: [{ $eq: '', }, { $eq: null }] };
       else if (req.query.language === 'non-submit-answer') where.language = { $not: '' };
       else where.language = req.query.language;
     }
