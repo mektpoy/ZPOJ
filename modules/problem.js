@@ -239,8 +239,8 @@ app.get('/favorites', async (req, res) => {
       throw new ErrorMessage('错误的排序参数。');
     }
 
-    let paginate = syzoj.utils.paginate(await Problem.query('select COUNT(*) from problem inner join favorite on favorite.user_id=' + res.locals.user.id + ' and favorite.problem_id = problem.id'));
-    let problems = await Problem.query('select * from problem inner join favorite on favorite.user_id=' + res.locals.user.id + ' and favorite.problem_id = problem.id order by problem.' + sort + ' ' + order);
+    let paginate = syzoj.utils.paginate(await Problem.query('select COUNT(problem.id) from problem inner join favorite on favorite.user_id=' + res.locals.user.id + ' and favorite.problem_id = problem.id'));
+    let problems = await Problem.query('select problem.* from problem inner join favorite on favorite.user_id=' + res.locals.user.id + ' and favorite.problem_id = problem.id order by problem.' + sort + ' ' + order);
 
     await problems.forEachAsync(async problem => {
       problem.allowedEdit = await problem.isAllowedEditBy(res.locals.user);
