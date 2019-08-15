@@ -538,7 +538,7 @@ app.post('/problem/:id/import', async (req, res) => {
 
     let json = await request({
       uri: req.body.url + (req.body.url.endsWith('/') ? 'export' : '/export'),
-      timeout: 1500,
+      timeout: 9500,
       json: true
     });
 
@@ -598,7 +598,7 @@ app.post('/problem/:id/import', async (req, res) => {
         syzoj.log(e);
       }
     })
-    promise()
+    promise.then()
 
     res.redirect(syzoj.utils.makeUrl(['problem', problem.id]));
   } catch (e) {
