@@ -575,7 +575,7 @@ app.post('/problem/:id/import', async (req, res) => {
     let tmp = require('tmp-promise');
     let tmpFile = await tmp.file();
     let fs = require('bluebird').promisifyAll(require('fs'));
-    var promise = new Promise(function() {
+    var promise = new Promise(async function() {
       try {
         let data = await download(
             req.body.url +
