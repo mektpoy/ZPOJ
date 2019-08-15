@@ -403,6 +403,9 @@ app.get('/problem/:id/edit', async (req, res) => {
 
 app.post('/problem/:id/edit', async (req, res) => {
   try {
+    if (!res.locals.user || res.locals.user.name == '' ||
+        res.locals.user.name == null)
+      throw new ErrorMessage('您没有登录或没有访问此OJ的权限，请联系管理员。');
     let id = parseInt(req.params.id) || 0;
     let problem = await Problem.fromID(id);
     if (!problem) {
@@ -472,6 +475,9 @@ app.post('/problem/:id/edit', async (req, res) => {
 
 app.get('/problem/:id/import', async (req, res) => {
   try {
+    if (!res.locals.user || res.locals.user.name == '' ||
+        res.locals.user.name == null)
+      throw new ErrorMessage('您没有登录或没有访问此OJ的权限，请联系管理员。');
     let id = parseInt(req.params.id) || 0;
     let problem = await Problem.fromID(id);
 
@@ -504,6 +510,9 @@ app.get('/problem/:id/import', async (req, res) => {
 
 app.post('/problem/:id/import', async (req, res) => {
   try {
+    if (!res.locals.user || res.locals.user.name == '' ||
+        res.locals.user.name == null)
+      throw new ErrorMessage('您没有登录或没有访问此OJ的权限，请联系管理员。');
     let id = parseInt(req.params.id) || 0;
     let problem = await Problem.fromID(id);
     if (!problem) {
@@ -611,6 +620,9 @@ app.post('/problem/:id/import', async (req, res) => {
 // it.
 app.get('/problem/:id/manage', async (req, res) => {
   try {
+    if (!res.locals.user || res.locals.user.name == '' ||
+        res.locals.user.name == null)
+      throw new ErrorMessage('您没有登录或没有访问此OJ的权限，请联系管理员。');
     let id = parseInt(req.params.id);
     let problem = await Problem.fromID(id);
 
@@ -636,6 +648,10 @@ app.post(
     ]),
     async (req, res) => {
       try {
+        if (!res.locals.user || res.locals.user.name == '' ||
+            res.locals.user.name == null)
+          throw new ErrorMessage(
+              '您没有登录或没有访问此OJ的权限，请联系管理员。');
         let id = parseInt(req.params.id);
         let problem = await Problem.fromID(id);
 
@@ -725,6 +741,10 @@ app.post(
     '/problem/:id/submit', app.multer.fields([{name: 'answer', maxCount: 1}]),
     async (req, res) => {
       try {
+        if (!res.locals.user || res.locals.user.name == '' ||
+            res.locals.user.name == null)
+          throw new ErrorMessage(
+              '您没有登录或没有访问此OJ的权限，请联系管理员。');
         let id = parseInt(req.params.id);
         let problem = await Problem.fromID(id);
         const curUser = res.locals.user;
@@ -868,6 +888,9 @@ app.post(
 
 app.post('/problem/:id/delete', async (req, res) => {
   try {
+    if (!res.locals.user || res.locals.user.name == '' ||
+        res.locals.user.name == null)
+      throw new ErrorMessage('您没有登录或没有访问此OJ的权限，请联系管理员。');
     let id = parseInt(req.params.id);
     let problem = await Problem.fromID(id);
     if (!problem) throw new ErrorMessage('无此题目。');
@@ -886,6 +909,9 @@ app.post('/problem/:id/delete', async (req, res) => {
 
 app.get('/problem/:id/testdata', async (req, res) => {
   try {
+    if (!res.locals.user || res.locals.user.name == '' ||
+        res.locals.user.name == null)
+      throw new ErrorMessage('您没有登录或没有访问此OJ的权限，请联系管理员。');
     let id = parseInt(req.params.id);
     let problem = await Problem.fromID(id);
 
@@ -913,6 +939,10 @@ app.post(
     '/problem/:id/testdata/upload', app.multer.array('file'),
     async (req, res) => {
       try {
+        if (!res.locals.user || res.locals.user.name == '' ||
+            res.locals.user.name == null)
+          throw new ErrorMessage(
+              '您没有登录或没有访问此OJ的权限，请联系管理员。');
         let id = parseInt(req.params.id);
         let problem = await Problem.fromID(id);
 
@@ -937,6 +967,9 @@ app.post(
 
 app.post('/problem/:id/testdata/delete/:filename', async (req, res) => {
   try {
+    if (!res.locals.user || res.locals.user.name == '' ||
+        res.locals.user.name == null)
+      throw new ErrorMessage('您没有登录或没有访问此OJ的权限，请联系管理员。');
     let id = parseInt(req.params.id);
     let problem = await Problem.fromID(id);
 
@@ -955,6 +988,9 @@ app.post('/problem/:id/testdata/delete/:filename', async (req, res) => {
 
 app.get('/problem/:id/testdata/download/:filename?', async (req, res) => {
   try {
+    if (!res.locals.user || res.locals.user.name == '' ||
+        res.locals.user.name == null)
+      throw new ErrorMessage('您没有登录或没有访问此OJ的权限，请联系管理员。');
     let id = parseInt(req.params.id);
     let problem = await Problem.fromID(id);
 
@@ -984,6 +1020,9 @@ app.get('/problem/:id/testdata/download/:filename?', async (req, res) => {
 
 app.get('/problem/:id/download/additional_file', async (req, res) => {
   try {
+    if (!res.locals.user || res.locals.user.name == '' ||
+        res.locals.user.name == null)
+      throw new ErrorMessage('您没有登录或没有访问此OJ的权限，请联系管理员。');
     let id = parseInt(req.params.id);
     let problem = await Problem.fromID(id);
 
@@ -1017,6 +1056,9 @@ app.get('/problem/:id/download/additional_file', async (req, res) => {
 
 app.get('/problem/:id/statistics/:type', async (req, res) => {
   try {
+    if (!res.locals.user || res.locals.user.name == '' ||
+        res.locals.user.name == null)
+      throw new ErrorMessage('您没有登录或没有访问此OJ的权限，请联系管理员。');
     let id = parseInt(req.params.id);
     let problem = await Problem.fromID(id);
 
