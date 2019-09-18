@@ -56,60 +56,6 @@
           </tbody>
         </table>
       </div>
-      <h4 class="ui top attached block header"><i class="ui signal icon"></i>排名</h4>
-      <div class="ui bottom attached segment">
-        <table class="ui very basic center aligned table" style="table-layout: fixed; ">
-          <thead>
-            <tr>
-              <th style="width: 50px; ">#</th>
-              <th style="width: 150px; ">用户名</th>
-              <th>个性签名</th>
-            </tr>
-          </thead>
-          <script>
-            var lineHeight = 0;
-            (function () {
-              var div = document.createElement('div');
-              div.style.position = 'fixed';
-              div.style.left = -10000;
-              div.style.visibility = 'hidden';
-              div.innerText = '测试，Test.';
-              document.body.appendChild(div);
-              lineHeight = div.clientHeight;
-            })();
-          </script>
-          <tbody>
-            <%
-            let i = 0;
-            for (let user of ranklist) {
-              ++i;
-            %>
-            <tr>
-              <td><b><%= i %></b></td>
-              <td><a href="<%= syzoj.utils.makeUrl(['user', user.id]) %>"><span
-                    class="rated-user <%= syzoj.utils.ratingStyle([user.rating])%>"><%= user.username %></span></a><% if (user.nameplate) { %><%- user.nameplate %><% } %>
-              </td>
-              <td style="font-content">
-                <script id="user-infomation-script-<%= i %>">
-                  (function () {
-                    var html = <% - serializejs(user.information) %>;
-                    var elem = document.createElement('div');
-                    elem.style = 'overflow: hidden; width: 100%; position: relative; ';
-                    elem.style.maxHeight = lineHeight + 'px';
-                    elem.innerHTML = html;
-                    var imgs = Array.prototype.slice.call(elem.getElementsByTagName('img'));
-                    for (var i in imgs) imgs[i].parentNode.removeChild(imgs[i]);
-                    var script = document.getElementById('user-infomation-script-<%= i %>');
-                    script.parentNode.replaceChild(elem, script);
-                  })();
-                </script>
-              </td>
-            </tr>
-            <%
-            } %>
-          </tbody>
-        </table>
-      </div>
     </div>
     <div class="right floated five wide column">
       <h4 class="ui top attached block header"><i class="ui quote left icon"></i>一言（ヒトコト）</h4>
