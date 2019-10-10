@@ -28,6 +28,7 @@
         <%
         for (let contest of contests) {
           let now = syzoj.utils.getCurrentDate();
+          let tag = '';
           let typ = '';
           if (contest.type === 'noi') {
             typ = 'OI赛制'
