@@ -100,15 +100,17 @@
                 class="rated-user <%= syzoj.utils.ratingStyle([item.user.rating])%>"><%= item.user.username %></span></a><% if (item.user.nameplate) { %><%- item.user.nameplate %><% } %>
           </td>
           <td><%= item.user.name %></td>
-          <% if (contest.type === 'acm') { %>
+          <% if (contest.type === 'acm' || contest.type === 'prac') { %>
           <td>
             <span class="score score_<%= parseInt((item.player.score / ranklist[0].player.score * 10) || 0) %>">
               <%= item.player.score %>
             </span>
           </td>
+          <% if (contest.type !== 'prac') { %>
           <td>
             <%= syzoj.utils.formatTime(timeSum) %>
           </td>
+          <% } %>
           <% } %>
           <% for (let problem of problems) { %>
           <% if (problem.min === i) { %>
