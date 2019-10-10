@@ -25,7 +25,9 @@
           <th>姓名</th>
           <% if (contest.type === 'acm' || contest.type === 'prac') { %>
           <th>通过数量</th>
+          <% if (contest.type !== 'prac') { %>
           <th>罚时</th>
+          <% } %>
           <% } %>
           <% for (let i = 0; i < problems.length; i++) { %>
           <th>
@@ -98,7 +100,7 @@
                 class="rated-user <%= syzoj.utils.ratingStyle([item.user.rating])%>"><%= item.user.username %></span></a><% if (item.user.nameplate) { %><%- item.user.nameplate %><% } %>
           </td>
           <td><%= item.user.name %></td>
-          <% if (contest.type === 'acm' || contest.type === 'prac') { %>
+          <% if (contest.type === 'acm') { %>
           <td>
             <span class="score score_<%= parseInt((item.player.score / ranklist[0].player.score * 10) || 0) %>">
               <%= item.player.score %>
@@ -126,10 +128,11 @@
               +
               <% } %>
             </span>
-
+            <% if (contest.type !== 'prac') { %>
             <div class="submit_time">
               <%= syzoj.utils.formatTime(item.player.score_details[problem.id].acceptedTime - contest.start_time) %>
             </div>
+            <% } %>
             <% } else if (item.player.score_details[problem.id].unacceptedCount) { %>
             <span class="score score_0">
               -<%= item.player.score_details[problem.id].unacceptedCount %>
