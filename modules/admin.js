@@ -217,7 +217,7 @@ app.post('/admin/rating/add', async (req, res) => {
 
     await db.query('UPDATE `judge_state` SET `type` = 2 WHERE `type` = 1 AND `type_info` = ' + contest.id);
 
-    contest.problems.split('|').forEachAsync(async x => {
+    await contest.problems.split('|').forEachAsync(async x => {
       let problem = await Problem.fromID(x);
       if (!problem) return;
       problem.is_public = is_public;
