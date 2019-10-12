@@ -216,6 +216,17 @@ app.post('/admin/rating/add', async (req, res) => {
     }
 
     await db.query('UPDATE `judge_state` SET `type` = 2 WHERE `type` = 1 AND `type_info` = ' + contest.id);
+
+    contest.problems.split('|').forEachAsync(async x => {
+      let problem = await Problem.fromID(x);
+      if (!problem) return;
+      problem.is_public = is_public;
+      problem.publicizer_id = res.locals.user.id;
+      problem.publicize_time = new Date();
+      await problem.save();
+      JudgeState.model.update({ is_public: is_public }, { where: { problem_id: problem.id } });
+    })
+
     res.redirect(syzoj.utils.makeUrl(['admin', 'rating']));
   } catch (e) {
     syzoj.log(e);
@@ -300,7 +311,7 @@ app.post('/admin/other', async (req, res) => {
       for (const u of users) {
         await u.refreshSubmitInfo();
       }
-    } 
+    }
     else {
       throw new ErrorMessage("操作类型不正确");
     }
@@ -361,7 +372,7 @@ app.post('/admin/rejudge', async (req, res) => {
     };
 
     if (req.body.language) {
-      if (req.body.language === 'submit-answer') where.language = { $or: [{ $eq: '',  }, { $eq: null }] };
+      if (req.body.language === 'submit-answer') where.language = { $or: [{ $eq: '', }, { $eq: null }] };
       else if (req.body.language === 'non-submit-answer') where.language = { $not: '' };
       else where.language = req.body.language;
     }

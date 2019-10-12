@@ -179,7 +179,7 @@ app.get('/contest/:id', async (req, res) => {
     }
 
     let hasStatistics = false;
-    if ((!contest.hide_statistics) || (contest.ended) || (isSupervisior)) {
+    if ((!contest.type === 'noi') || (contest.ended) || (isSupervisior)) {
       hasStatistics = true;
 
       await contest.loadRelationships();
