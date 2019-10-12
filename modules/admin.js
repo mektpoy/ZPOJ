@@ -220,11 +220,11 @@ app.post('/admin/rating/add', async (req, res) => {
     await contest.problems.split('|').forEachAsync(async x => {
       let problem = await Problem.fromID(x);
       if (!problem) return;
-      problem.is_public = is_public;
+      problem.is_public = true;
       problem.publicizer_id = res.locals.user.id;
       problem.publicize_time = new Date();
       await problem.save();
-      JudgeState.model.update({ is_public: is_public }, { where: { problem_id: problem.id } });
+      JudgeState.model.update({ is_public: true }, { where: { problem_id: problem.id } });
     })
 
     res.redirect(syzoj.utils.makeUrl(['admin', 'rating']));
