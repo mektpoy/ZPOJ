@@ -50,7 +50,7 @@
           <% tag = '<span class="ui header"><div class="ui mini grey label">已结束</div></span>' %>
           <% } %>
           <td>
-            <% if (now < contest.end_time) { %>
+            <% if (now < contest.end_time && contest.type !== 'prac') { %>
             隐藏
             <% } else { %>
             <%= contest.count %> / <%= contest.total %>
