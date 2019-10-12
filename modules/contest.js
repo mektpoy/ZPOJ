@@ -24,7 +24,7 @@ app.get('/contests', async (req, res) => {
       await contest.problems.split('|').forEachAsync(async x => {
         let problem = await Problem.fromID(x);
         if (!problem) return;
-        let judge_state = await problem.getJudgeState(user, true);
+        let judge_state = await problem.getJudgeState(res.locals.user, true);
         total = total + 1;
         if (judge_state) count = count + 1;
       })
