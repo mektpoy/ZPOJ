@@ -26,7 +26,7 @@ app.get('/contests', async (req, res) => {
         if (!problem) return;
         let judge_state = await problem.getJudgeState(res.locals.user, true);
         total = total + 1;
-        if (judge_state) count = count + 1;
+        if (judge_state && judge_state.result === 'Accepted') count = count + 1;
       })
       contest.count = count;
       contest.total = total;
