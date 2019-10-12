@@ -12,7 +12,7 @@ app.get('/contests', async (req, res) => {
   try {
     if (!res.locals.user || res.locals.user.name == "" || res.locals.user.name == null) throw new ErrorMessage('您没有登录或没有访问此OJ的权限，请联系管理员。');
     let where;
-    if (res.locals.user && res.locals.user.is_admin) where = {}
+    if (res.locals.user && await user.hasPrivilege('manage_problem_tag')) where = {}
     else where = { is_public: true };
 
     let paginate = syzoj.utils.paginate(await Contest.count(where), req.query.page, syzoj.config.page.contest);
@@ -123,7 +123,7 @@ app.get('/contest/:id', async (req, res) => {
 
     let contest = await Contest.fromID(contest_id);
     if (!contest) throw new ErrorMessage('无此比赛。');
-    if (!contest.is_public && (!res.locals.user || !res.locals.user.is_admin)) throw new ErrorMessage('比赛未公开，请耐心等待 (´∀ `)');
+    if (!contest.is_public && (!res.locals.user || !await curUser.hasPrivilege('manage_problem_tag'))) throw new ErrorMessage('比赛未公开，请耐心等待 (´∀ `)');
 
     const isSupervisior = await contest.isSupervisior(curUser);
     contest.running = contest.isRunning();
@@ -228,7 +228,7 @@ app.get('/contest/:id/ranklist', async (req, res) => {
     const curUser = res.locals.user;
 
     if (!contest) throw new ErrorMessage('无此比赛。');
-    if (!contest.is_public && (!res.locals.user || !res.locals.user.is_admin)) throw new ErrorMessage('比赛未公开，请耐心等待 (´∀ `)');
+    if (!contest.is_public && (!res.locals.user || !await curUser.hasPrivilege('manage_problem_tag'))) throw new ErrorMessage('比赛未公开，请耐心等待 (´∀ `)');
     if (!await contest.isSupervisior(curUser) && !contest.isRunning() && !contest.isEnded()) throw new ErrorMessage('本场比赛尚未开始，请耐心等待。');
     if ([contest.allowedSeeingResult() && contest.allowedSeeingOthers(),
     contest.isEnded(),
@@ -301,7 +301,7 @@ app.get('/contest/:id/submissions', async (req, res) => {
     if (!res.locals.user || res.locals.user.name == "" || res.locals.user.name == null) throw new ErrorMessage('您没有登录或没有访问此OJ的权限，请联系管理员。');
     let contest_id = parseInt(req.params.id);
     let contest = await Contest.fromID(contest_id);
-    if (!contest.is_public && (!res.locals.user || !res.locals.user.is_admin)) throw new ErrorMessage('比赛未公开，请耐心等待 (´∀ `)');
+    if (!contest.is_public && (!res.locals.user || !await res.locals.user.hasPrivilege('manage_problem_tag'))) throw new ErrorMessage('比赛未公开，请耐心等待 (´∀ `)');
     // if (contest.isEnded()) {
     //   res.redirect(syzoj.utils.makeUrl(['submissions'], { contest: contest_id }));
     //   return;

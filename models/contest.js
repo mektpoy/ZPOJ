@@ -38,17 +38,17 @@ let model = db.define('contest', {
   is_public: { type: Sequelize.BOOLEAN },
   hide_statistics: { type: Sequelize.BOOLEAN }
 }, {
-    timestamps: false,
-    tableName: 'contest',
-    indexes: [
-      {
-        fields: ['holder_id'],
-      },
-      {
-        fields: ['ranklist_id'],
-      }
-    ]
-  });
+  timestamps: false,
+  tableName: 'contest',
+  indexes: [
+    {
+      fields: ['holder_id'],
+    },
+    {
+      fields: ['ranklist_id'],
+    }
+  ]
+});
 
 let Model = require('./common');
 class Contest extends Model {
@@ -75,7 +75,7 @@ class Contest extends Model {
   }
 
   async isSupervisior(user) {
-    return user && (user.is_admin || this.holder_id === user.id || this.admins.split('|').includes(user.id.toString()));
+    return user && (user.is_admin || this.holder_id === user.id || this.admins.split('|').includes(user.id.toString()) || user.hasPrivilege('manage_problem_tag'));
   }
 
   allowedSeeingOthers() {
