@@ -18,6 +18,19 @@ app.get('/contests', async (req, res) => {
     let paginate = syzoj.utils.paginate(await Contest.count(where), req.query.page, syzoj.config.page.contest);
     let contests = await Contest.query(paginate, where, [['start_time', 'desc']]);
 
+    await contests.forEachAsync(async contest => {
+      let count = 0;
+      let total = 0;
+      await contest.problems.split('|').forEachAsync(async x => {
+        let problem = await Problem.fromID(x);
+        if (!problem) return;
+        let judge_state = await problem.getJudgeState(user, true);
+        total = total + 1;
+        if (judge_state) count = count + 1;
+      })
+      contest.count = count;
+      contest.total = total;
+    })
     await contests.forEachAsync(async x => x.subtitle = await syzoj.utils.markdown(x.subtitle));
 
     res.render('contests', {
