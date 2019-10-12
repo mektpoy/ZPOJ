@@ -12,7 +12,7 @@ app.get('/contests', async (req, res) => {
   try {
     if (!res.locals.user || res.locals.user.name == "" || res.locals.user.name == null) throw new ErrorMessage('您没有登录或没有访问此OJ的权限，请联系管理员。');
     let where;
-    if (res.locals.user && await user.hasPrivilege('manage_problem_tag')) where = {}
+    if (res.locals.user && await res.locals.user.hasPrivilege('manage_problem_tag')) where = {}
     else where = { is_public: true };
 
     let paginate = syzoj.utils.paginate(await Contest.count(where), req.query.page, syzoj.config.page.contest);
