@@ -42,13 +42,6 @@
           }
         %>
         <tr>
-          <% if (now < contest.end_time) { %>
-          隐藏
-          <% } else { %>
-          <% contest.count %> / <% contest.total %>
-          <% } %>
-        </tr>
-        <tr>
           <% if (now < contest.start_time) { %>
           <% tag = '<span class="ui header"><div class="ui mini red label">未开始</div></span>' %>
           <% } else if (now >= contest.start_time && now < contest.end_time) { %>
@@ -56,7 +49,13 @@
           <% } else { %>
           <% tag = '<span class="ui header"><div class="ui mini grey label">已结束</div></span>' %>
           <% } %>
-
+          <td>
+            <% if (now < contest.end_time) { %>
+            隐藏
+            <% } else { %>
+            <%= contest.count %> / <%= contest.total %>
+            <% } %>
+          </td>
           <td><a href="<%= syzoj.utils.makeUrl(['contest', contest.id]) %>"><%= contest.title %> <%- tag %></a></td>
           <td><%= syzoj.utils.formatDate(contest.start_time) %></td>
           <td><%= syzoj.utils.formatDate(contest.end_time) %></td>
