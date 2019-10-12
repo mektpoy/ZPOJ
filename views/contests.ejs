@@ -50,7 +50,7 @@
           <% tag = '<span class="ui header"><div class="ui mini grey label">已结束</div></span>' %>
           <% } %>
           <td>
-            <span class="score score_<%= parseInt(((contest.count + 1) / (contest.total + 1) * 10) || 0) %>">
+            <span class="score score_<%= parseInt(((contest.count + 0.01) / (contest.total + 0.01) * 10) || 0) %>">
               <% if (now < contest.end_time && contest.type !== 'prac') { %>
               隐藏
               <% } else { %>
