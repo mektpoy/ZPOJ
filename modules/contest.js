@@ -160,7 +160,7 @@ app.get('/contest/:id', async (req, res) => {
     if (player) {
       for (let problem of problems) {
         if (contest.isEnded()) {
-          let judge_state = await problem.getJudgeState(res.locals.user, true);
+          let judge_state = await problem.problem.getJudgeState(res.locals.user, true);
           problem.status = judge_state.status;
           problem.judge_id = player.score_details[problem.problem.id].judge_id;
         } else if (contest.type === 'noi') {
