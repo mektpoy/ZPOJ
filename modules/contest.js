@@ -14,6 +14,13 @@ app.get('/contests', async (req, res) => {
     let where;
     if (res.locals.user && await res.locals.user.hasPrivilege('manage_problem_tag')) where = {}
     else where = { is_public: true };
+    if (req.query.type) {
+      if (req.query.type == "prac") {
+        where.type = "prac"
+      } else if (req.query.type == "formal") {
+        where.type = {$ne: "prac"}
+      }
+    }
 
     let paginate = syzoj.utils.paginate(await Contest.count(where), req.query.page, syzoj.config.page.contest);
     let contests = await Contest.query(paginate, where, [['start_time', 'desc']]);
