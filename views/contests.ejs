@@ -53,7 +53,7 @@
               <% if (now < contest.end_time && contest.type !== 'prac') { %>
               隐藏
               <% } else { %>
-                <span class="score score_<%= parseInt(((contest.count + 0.01) / (contest.total + 0.01) * 10) || 0) %>"></span>
+                <span class="score score_<%= parseInt(((contest.count + 0.01) / (contest.total + 0.01) * 10) || 0) %>">
                   <%= contest.count %> / <%= contest.total %>
                 </span>
               <% } %>
