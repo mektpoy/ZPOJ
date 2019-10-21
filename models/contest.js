@@ -75,7 +75,8 @@ class Contest extends Model {
   }
 
   async isSupervisior(user) {
-    return user && (user.is_admin || this.holder_id === user.id || this.admins.split('|').includes(user.id.toString()) || await user.hasPrivilege('manage_problem_tag'));
+    const ok = await user.hasPrivilege('manage_problem_tag')
+    return user && (user.is_admin || this.holder_id === user.id || this.admins.split('|').includes(user.id.toString()) || ok);
   }
 
   allowedSeeingOthers() {

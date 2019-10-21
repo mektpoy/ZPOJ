@@ -9,7 +9,7 @@
       <a class="<%= type === 'all' ? 'active ' : '' %>item" href="<%=syzoj.utils.makeUrl(['contests'])%>">全部</a>
       <a class="<%= type === 'formal' ? 'active ' : '' %>item" href="<%=syzoj.utils.makeUrl(['contests'])%>?type=formal">正式赛</a>
       <a class="<%= type === 'prac' ? 'active ' : '' %>item" href="<%=syzoj.utils.makeUrl(['contests'])%>?type=prac">练习赛</a>
-      <% if (user && user.hasPrivilege('manage_problem_tag')) { %>
+      <% if (user && isContestManager) { %>
       <a class="item" href="/contest/0/edit" style="margin-left: auto; "><i class="ui icon write"></i>添加比赛</a>
       <% } %>
     </div>

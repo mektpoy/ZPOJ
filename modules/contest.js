@@ -42,9 +42,14 @@ app.get('/contests', async (req, res) => {
     })
     await contests.forEachAsync(async x => x.subtitle = await syzoj.utils.markdown(x.subtitle));
 
+    let isContestManager = 0
+    if (await res.locals.user.isSupervisior()) {
+      isContestManager = 1
+    }
     res.render('contests', {
       contests: contests,
       paginate: paginate,
+      isContestManager: isContestManager,
       type: type
     })
   } catch (e) {
