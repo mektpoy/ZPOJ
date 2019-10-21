@@ -11,14 +11,16 @@ const { getSubmissionInfo, getRoughResult, processOverallResult } = require('../
 app.get('/contests', async (req, res) => {
   try {
     if (!res.locals.user || res.locals.user.name == "" || res.locals.user.name == null) throw new ErrorMessage('您没有登录或没有访问此OJ的权限，请联系管理员。');
-    let where;
+    let where, type = "all";
     if (res.locals.user && await res.locals.user.hasPrivilege('manage_problem_tag')) where = {}
     else where = { is_public: true };
     if (req.query.type) {
       if (req.query.type == "prac") {
         where.type = "prac"
+        type = "prac"
       } else if (req.query.type == "formal") {
         where.type = {$ne: "prac"}
+        type = "formal"
       }
     }
 
@@ -42,7 +44,8 @@ app.get('/contests', async (req, res) => {
 
     res.render('contests', {
       contests: contests,
-      paginate: paginate
+      paginate: paginate,
+      type: type
     })
   } catch (e) {
     syzoj.log(e);
