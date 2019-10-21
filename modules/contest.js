@@ -43,7 +43,7 @@ app.get('/contests', async (req, res) => {
     await contests.forEachAsync(async x => x.subtitle = await syzoj.utils.markdown(x.subtitle));
 
     let isContestManager = 0
-    if (await contest.isSupervisior(res.locals.user)) {
+    if (await res.locals.user.hasPrivilege('manage_problem_tag')) {
       isContestManager = 1
     }
     res.render('contests', {
