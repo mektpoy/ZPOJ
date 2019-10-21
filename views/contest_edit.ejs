@@ -16,14 +16,6 @@
           <% } %>
         </select>
       </div>
-      <div class="field">
-        <label>比赛管理员</label>
-        <select class="ui fluid search dropdown" multiple="" id="search_admins" name="admins">
-          <% for (let admin of admins) { %>
-          <option value="<%= admin.id %>" selected><%= admin.username %></option>
-          <% } %>
-        </select>
-      </div>
       <div class="inline fields">
         <label>赛制</label>
         <div class="field">
