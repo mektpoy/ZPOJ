@@ -2,7 +2,6 @@
 <% include header %>
 <div class="padding">
   <h4 class="ui top attached block header"><i class="ui calendar icon"></i>比赛</h4>
-  <form class="ui form" method="post" action="<%= syzoj.utils.makeUrl(['contests']) %>">
   <% if (user && user.hasPrivilege('manage_problem_tag')) { %>
     <form class="ui mini form">
       <div class="inline fields" style="margin-bottom: 25px; white-space: nowrap; ">
@@ -199,14 +198,5 @@
       </tbody>
     </table>
   </div>
-  </form>
 </div>
-
-<script type="text/javascript">
-  $(function () {
-      $('.tabular.menu .item').tab();
-  });
-</script>
-
 <% include footer %>
-
