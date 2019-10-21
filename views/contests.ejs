@@ -2,7 +2,9 @@
 <% include header %>
 <div class="padding">
   <h4 class="ui top attached block header"><i class="ui calendar icon"></i>比赛</h4>
-  <% if (user && user.hasPrivilege('manage_problem_tag')) { %>
+  <div class="ui bottom attached segment">
+    <% if (contests.length) { %>
+    <% if (user && user.hasPrivilege('manage_problem_tag')) { %>
     <form class="ui mini form">
       <div class="inline fields" style="margin-bottom: 25px; white-space: nowrap; ">
         <a href="<%= syzoj.utils.makeUrl(['contest', 0, 'edit']) %>" class="ui mini labeled icon right floated button"
@@ -12,14 +14,7 @@
         </a>
       </div>
     </form>
-  <% } %>
-  <div class="ui top attached tabular menu">
-    <a class="item active" data-tab="all">全部</a>
-    <a class="item" data-tab="formal" id="formal">正式赛</a>
-    <a class="item" data-tab="practice" id="practice">练习赛</a>
-  </div>
-  <div class="ui bottom attached tab segment active" data-tab="all">
-    <% if (contests.length) { %>
+    <% } %>
     <table class="ui very basic center aligned table">
       <thead>
         <tr>
@@ -87,116 +82,6 @@
     <% } %>
     <br>
     <% include page %>
-  </div>
-  <div class="ui bottom attached tab segment" data-tab="formal">
-    <table class="ui very basic center aligned table">
-      <thead>
-        <tr>
-          <th>完成情况</th>
-          <th>比赛名称</th>
-          <th>开始时间</th>
-          <th>结束时间</th>
-          <th>赛制</th>
-        </tr>
-      </thead>
-      <tbody>
-        <%
-        for (let contest of contests) {
-          let now = syzoj.utils.getCurrentDate();
-          let tag = '';
-          let typ = '';
-          if (contest.type === 'noi') {
-            typ = 'OI赛制'
-          } else if (contest.type === 'ioi') {
-            typ = 'IOI赛制'
-          } else if (contest.type === 'prac') {
-            typ = '练习赛'
-            continue
-          } else if (contest.type === 'acm') {
-            typ = 'ICPC赛制'
-          }
-        %>
-        <tr>
-          <% if (now < contest.start_time) { %>
-          <% tag = '<span class="ui header"><div class="ui mini red label">未开始</div></span>' %>
-          <% } else if (now >= contest.start_time && now < contest.end_time) { %>
-          <% tag = '<span class="ui header"><div class="ui mini green label">进行中</div></span>' %>
-          <% } else { %>
-          <% tag = '<span class="ui header"><div class="ui mini grey label">已结束</div></span>' %>
-          <% } %>
-          <td>
-              <% if (now < contest.end_time && contest.type !== 'prac') { %>
-              隐藏
-              <% } else { %>
-                <span class="score score_<%= parseInt(((contest.count + 0.01) / (contest.total + 0.01) * 10) || 0) %>"></span>
-                  <%= contest.count %> / <%= contest.total %>
-                </span>
-              <% } %>
-          </td>
-          <td><a href="<%= syzoj.utils.makeUrl(['contest', contest.id]) %>"><%= contest.title %> <%- tag %></a></td>
-          <td><%= syzoj.utils.formatDate(contest.start_time) %></td>
-          <td><%= syzoj.utils.formatDate(contest.end_time) %></td>
-          <td class="font-content"><%- typ %></td>
-        </tr>
-        <% } %>
-      </tbody>
-    </table>
-  </div>
-  <div class="ui bottom attached tab segment" data-tab="prac">
-    <table class="ui very basic center aligned table">
-      <thead>
-        <tr>
-          <th>完成情况</th>
-          <th>比赛名称</th>
-          <th>开始时间</th>
-          <th>结束时间</th>
-          <th>赛制</th>
-        </tr>
-      </thead>
-      <tbody>
-        <%
-        for (let contest of contests) {
-          let now = syzoj.utils.getCurrentDate();
-          let tag = '';
-          let typ = '';
-          if (contest.type === 'noi') {
-            typ = 'OI赛制'
-            continue
-          } else if (contest.type === 'ioi') {
-            typ = 'IOI赛制'
-            continue
-          } else if (contest.type === 'prac') {
-            typ = '练习赛'
-          } else if (contest.type === 'acm') {
-            typ = 'ICPC赛制'
-            continue
-          }
-        %>
-        <tr>
-          <% if (now < contest.start_time) { %>
-          <% tag = '<span class="ui header"><div class="ui mini red label">未开始</div></span>' %>
-          <% } else if (now >= contest.start_time && now < contest.end_time) { %>
-          <% tag = '<span class="ui header"><div class="ui mini green label">进行中</div></span>' %>
-          <% } else { %>
-          <% tag = '<span class="ui header"><div class="ui mini grey label">已结束</div></span>' %>
-          <% } %>
-          <td>
-              <% if (now < contest.end_time && contest.type !== 'prac') { %>
-              隐藏
-              <% } else { %>
-                <span class="score score_<%= parseInt(((contest.count + 0.01) / (contest.total + 0.01) * 10) || 0) %>"></span>
-                  <%= contest.count %> / <%= contest.total %>
-                </span>
-              <% } %>
-          </td>
-          <td><a href="<%= syzoj.utils.makeUrl(['contest', contest.id]) %>"><%= contest.title %> <%- tag %></a></td>
-          <td><%= syzoj.utils.formatDate(contest.start_time) %></td>
-          <td><%= syzoj.utils.formatDate(contest.end_time) %></td>
-          <td class="font-content"><%- typ %></td>
-        </tr>
-        <% } %>
-      </tbody>
-    </table>
   </div>
 </div>
 <% include footer %>
