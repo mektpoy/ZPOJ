@@ -174,11 +174,7 @@ app.get('/contest/:id', async (req, res) => {
     problems = problems.map(x => ({ problem: x, status: null, judge_id: null, statistics: null }));
     if (player) {
       for (let problem of problems) {
-        if (contest.isEnded()) {
-          let judge_state = await problem.problem.getJudgeState(res.locals.user, true);
-          problem.status = judge_state.status;
-          problem.judge_id = judge_state.id;
-        } else if (contest.type === 'noi') {
+        if (contest.type === 'noi') {
           if (player.score_details[problem.problem.id]) {
             let judge_state = await JudgeState.fromID(player.score_details[problem.problem.id].judge_id);
             problem.status = judge_state.status;
