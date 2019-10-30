@@ -208,7 +208,7 @@ app.post('/submission/:id/rejudge', async (req, res) => {
 
     await judge.loadRelationships();
 
-    let allowedRejudge = await judge.problem.isAllowedEditBy(res.locals.user);
+    let allowedRejudge = res.locals.user.id === judge.user_id || await judge.problem.isAllowedEditBy(res.locals.user);
     if (!allowedRejudge) throw new ErrorMessage('您没有权限进行此操作。');
 
     await judge.rejudge();
