@@ -5,7 +5,7 @@ const Email = require('../libs/email');
 const jwt = require('jsonwebtoken');
 
 function setLoginCookie(username, password, res) {
-  res.cookie('login', JSON.stringify([username, password]), JSON.stringify(["maxAge", 86400 * 30]));
+  res.cookie('login', JSON.stringify([username, password]), {maxAge: 86400 * 1000 * 30});
 }
 
 // Login
