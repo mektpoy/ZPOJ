@@ -75,8 +75,8 @@
           class="tasks icon"></i> 评测</a>
       <a class="item<% if (active.startsWith('ranklist')) { %> active<% } %>" href="/ranklist"><i
           class="signal icon"></i> 排名</a>
-      <a class="item<% if (active.startsWith('discussion') || active.startsWith('article')) { %> active<% } %>"
-        href="/discussion/global"><i class="comments icon"></i> 讨论</a>
+      <!-- <a class="item<% if (active.startsWith('discussion') || active.startsWith('article')) { %> active<% } %>"
+        href="/discussion/global"><i class="comments icon"></i> 讨论</a> -->
       <a class="item<% if (active.startsWith('help')) { %> active<% } %>" href="/help"><i class="help circle icon"></i>
         帮助</a>
       <a class="item<% if (active.startsWith('favorites')) { %> active<% } %>" href="/favorites"><i
@@ -109,10 +109,10 @@
             href="<%= syzoj.utils.makeUrl(['login'], { url: req.query['url'] || req.originalUrl }) %>">
             登录
           </a>
-          <a class="ui primary button"
+          <!-- <a class="ui primary button"
             href="<%= syzoj.utils.makeUrl(['sign_up'], { url: req.query['url'] || req.originalUrl }) %>">
             注册
-          </a>
+          </a> -->
         </div>
         <% } %>
       </div>
